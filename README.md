@@ -1,6 +1,6 @@
 # 🚀 GitKraken CLI
 
-`gk` is GitKraken on the command line. The core functionality is focused on "Work Items" which can be thought of as the feature or issue you are trying to tackle. This allows you to work with multiple repos at once and get the same UX as if you were in a monorepo. We also provide robust AI-powered commit messages and Pull Request generation. It also provides an MCP server that streamlines working with git and your Issue and git hosting providers.
+`gk` is GitKraken on the command line. It provides an MCP server that streamlines working with git and your Issue and git hosting providers, making it easy to integrate powerful git operations and platform interactions directly into your AI-powered development workflow. Beyond MCP, the core CLI functionality is focused on "Work Items" which can be thought of as the feature or issue you are trying to tackle. This allows you to work with multiple repos at once and get the same UX as if you were in a monorepo. We also provide robust AI-powered commit messages and Pull Request generation.
 
 GitKraken CLI is available on macOS, Windows, and Unix systems.
 
@@ -9,22 +9,102 @@ GitKraken CLI is available on macOS, Windows, and Unix systems.
 ## Table of Contents
 
 - [MCP Server](#mcp-server)
-- [Documentation](#documentation)
-- [Workflows](#workflows)
+  - [Prerequisites](#prerequisites)
+  - [MCP Installation](#mcp-installation)
+  - [MCP Usage](#mcp-usage)
+  - [Available Tools](#available-tools)
+  - [Additional MCP Commands](#additional-mcp-commands)
+- [CLI Documentation](#cli-documentation)
+- [CLI Workflows](#cli-workflows)
 - [`git` Command Passthrough](#git-command-passthrough)
 - [Installation](#installation)
+- [Configuration](#configuration)
 - [Troubleshooting](#troubleshooting)
-- [Support](#support)
 
 ## MCP Server
 
-The GitKraken MCP server is a local MCP server that is powerful and easy to use. It wraps git, GitHub, Jira MCP actions as well as provides tools to LLMs that work with GitKraken APIs and functionality. You can find specific installation instructions based on your chosen AI application in the [Help Center](https://help.gitkraken.com/cli/gk-cli-mcp/).
+The MCP (Model Context Protocol) server for the GitKraken CLI is a powerful and easy-to-use local server that allows your preferred MCP client to interact with git operations and development workflows. It wraps essential git actions and extends functionality to work seamlessly with pull requests and issues across multiple platforms including Azure DevOps, Bitbucket, GitHub, GitLab, Jira, and Linear, as well as providing tools to LLMs that work with GitKraken APIs.
 
-If you want to read more about the MCP server, you can check out the [introduction blog post](https://www.gitkraken.com/blog/introducing-gitkraken-mcp)
+For more information, check out the [introduction blog post](https://www.gitkraken.com/blog/introducing-gitkraken-mcp) or visit the [Help Center](https://help.gitkraken.com/cli/gk-cli-mcp/) for specific installation instructions based on your chosen AI application.
 
-## Documentation
+### Prerequisites
 
-`gk help` is going to be your best source for exploring the CLI. But also see the [workflows](#workflows) below.
+Before you begin, you need to have the GitKraken CLI (gk) installed. You can find the latest release here:
+
+[GitKraken CLI Releases](https://github.com/gitkraken/gk-cli/releases)
+
+### MCP Installation
+
+Install the GitKraken MCP server directly into your compatible IDE or code editor with a simple command:
+
+```bash
+gk mcp install <PLATFORM>
+```
+
+If you need to specify a file path for the installation, you can use the --file-path option:
+
+```bash
+gk mcp install <PLATFORM> --file-path <PATH_TO_FILE>
+```
+
+#### Officially Supported IDEs
+
+You can officially install the GitKraken MCP server in the following clients:
+
+- vscode
+- vscode-insiders
+- claude
+- windsurf
+- cursor
+- zed
+- trae
+- copilot
+- gemini
+- amazon q
+- codex
+
+### MCP Usage
+
+To start the MCP server, simply run the following command in your terminal. This will allow your client to connect and start interacting.
+
+```bash
+gk mcp
+```
+
+### Available Tools
+
+The MCP server provides the following tools:
+
+- `git_add_or_commit` Add file contents to the index (git add <pathspec>) OR record changes to the repository (git commit -m <message> [files...]). Use the 'action' parameter to specify which action to perform.
+- `git_blame` Show what revision and author last modified each line of a file (git blame <file>).
+- `git_branch` List or create branches (git branch).
+- `git_checkout` Switch branches or restore working tree files (git checkout <branch>).
+- `git_log_or_diff` Show commit logs or changes between commits (git log -- oneline or git diff).
+- `git_push` Update remote refs along with associated objects (git push).
+- `git_stash` Stash the changes in a dirty working directory (git stash).
+- `git_status` Show the working tree status (git status).
+- `git_worktree` List or add git worktrees (git worktree <action>).
+- `gitkraken_workspace_list` Lists all Gitkraken workspaces
+- `issues_add_comment` Add a comment to an issue
+- `issues_assigned_to_me` Fetch issues assigned to the user
+- `issues_get_detail` Retrieve detailed information about a specific issue by its unique ID
+- `pull_request_assigned_to_me` Search pull requests where you are the assignee, author, or reviewer
+- `pull_request_create` Create a new pull request
+- `pull_request_create_review` Create a review for a pull request
+- `pull_request_get_comments` Get all the comments in a pull requests
+- `pull_request_get_detail` Get an specific pull request
+- `repository_get_file_content` Get file content from a repository
+
+### Additional MCP Commands
+
+- `gk mcp config`: Generates the necessary configuration for an MCP client to connect to this server.
+- `gk mcp uninstall`: Uninstalls the MCP server from the specified client.
+
+---
+
+## CLI Documentation
+
+`gk help` is going to be your best source for exploring the CLI. But also see the [workflows](#cli-workflows) below.
 
 ```bash
 Welcome to GitKraken CLI, a premium CLI experience for managing multiple repositories with familiar GIT CLI commands
@@ -38,13 +118,16 @@ AUTHENTICATING
   provider     Add or remove provider tokens
 
 CORE COMMANDS
+  ai           Use AI in the CLI
   graph        Display commit graph in current repository
   issue        Manage your issues
+  mcp          Start a local MCP server for your favorite MCP client to interact with
   organization Manage your Gitkraken organizations
   work         Interact with your work.
   workspace    Interact with your workspaces. Alias: 'ws'
 
 Additional Commands:
+  completion   Generate completion scripts
   help         Help about any command
   setup        Display information about your current system configuration
   version      Print the version number of GK CLI
@@ -55,7 +138,7 @@ Flags:
 Use "gk [command] --help" for more information about a command.
 ```
 
-## Workflows
+## CLI Workflows
 
 Start with a single repo. You can add more later.
 
@@ -142,7 +225,7 @@ mv ~/Downloads/gk "$HOME/cli"
 export PATH="$HOME/gk:$PATH"
 ```
 
-You can also [download][releases page] your corresponding package (`.deb`, `.rpm`) and install it with:
+You can also download from the [releases page](https://github.com/gitkraken/gk-cli/releases) your corresponding package (`.deb`, `.rpm`) and install it with:
 
 ```bash
 sudo apt install ./gk.deb
@@ -158,13 +241,13 @@ sudo rpm -i ./gk.rpm
 
 ### Windows
 
-`gk` is available from [Winget][winget] with the following command:
+`gk` is available from [Winget](https://github.com/microsoft/winget-cli) with the following command:
 
 ```bash
 winget install gitkraken.cli
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 ### Nerd Fonts
 
