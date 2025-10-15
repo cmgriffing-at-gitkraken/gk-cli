@@ -1,0 +1,104 @@
+# GitHub MCP Server
+
+The GitKraken MCP Server is a local MCP server that is powerful and easy to use. It combines the functionality of all of your GitKraken Integrations and provides that power to your AI agents, assistants, and chatbots. Your egentic workflows will be more capable and efficient.
+
+### Use Cases
+
+- Safe Git Operations: Perform Git operations safely and securely
+- Issue & PR Automation: Read and Create Issues and Pull Requests across all supported GitKraken Integrations (GitHub, GitLab, BitBucket, Azure DevOps, Jira, Trello, Linear, etc.)
+
+---
+
+## Local GitKraken MCP Server
+
+## Installation
+
+There are several ways of installing the GitKraken MCP Server depending on the environment in which you want to use it.
+
+### GitLens in VSCode/Copilot
+
+If you are using a new enough version of VSCode and have GitLens installed, you simply need to run a Copilot prompt that would use our MCP server. For example, you can run the following prompt:
+
+> What Issues are assigned to me?
+
+### Install in GitHub Copilot on VS Code
+
+For quick installation, use one of the one-click install buttons above. Once you complete that flow, toggle Agent mode (located by the Copilot Chat text input) and the server will start.
+
+More about using MCP server tools in VS Code's [agent mode documentation](https://code.visualstudio.com/docs/copilot/chat/mcp-servers).
+
+Install in GitHub Copilot on other IDEs (JetBrains, Visual Studio, Eclipse, etc.)
+
+Add the following JSON block to your IDE's MCP settings.
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "gitkraken": {
+        "command": "npx",
+        "args": ["@gitkraken/mcp"]
+      }
+    }
+  }
+}
+```
+
+Optionally, you can add a similar example (i.e. without the mcp key) to a file called `.vscode/mcp.json` in your workspace. This will allow you to share the configuration with other host applications that accept the same format.
+
+<details>
+<summary><b>Example JSON block without the MCP key included</b></summary>
+<br>
+
+```json
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "github_token",
+      "description": "GitHub Personal Access Token",
+      "password": true
+    }
+  ],
+  "servers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github_token}"
+      }
+    }
+  }
+}
+```
+
+</details>
+
+### Install in Other MCP Hosts
+
+For other MCP host applications, please refer to our installation guides:
+
+- **[GitHub Copilot in other IDEs](/docs/installation-guides/install-other-copilot-ides.md)** - Installation for JetBrains, Visual Studio, Eclipse, and Xcode with GitHub Copilot
+- **[Claude Code & Claude Desktop](docs/installation-guides/install-claude.md)** - Installation guide for Claude Code and Claude Desktop
+- **[Cursor](docs/installation-guides/install-cursor.md)** - Installation guide for Cursor IDE
+- **[Google Gemini CLI](docs/installation-guides/install-gemini-cli.md)** - Installation guide for Google Gemini CLI
+- **[Windsurf](docs/installation-guides/install-windsurf.md)** - Installation guide for Windsurf IDE
+
+For a complete overview of all installation options, see our **[Installation Guides Index](docs/installation-guides)**.
+
+> **Note:** Any host application that supports local MCP servers should be able to access the local GitHub MCP server. However, the specific configuration process, syntax and stability of the integration will vary by host application. While many may follow a similar format to the examples above, this is not guaranteed. Please refer to your host application's documentation for the correct MCP configuration syntax and setup process.
+
+## Tools
+
+{{toolsMarkdown}}
+
+## Prompts
+
+{{promptsMarkdown}}

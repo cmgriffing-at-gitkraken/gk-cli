@@ -1,0 +1,34 @@
+{
+  "name": "mcp-docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "json:tools": "pnpx @modelcontextprotocol/inspector --cli gk mcp --method tools/list > tools.json",
+    "json:prompts": "pnpx @modelcontextprotocol/inspector --cli gk mcp --method prompts/list > prompts.json",
+    "render": "tsx render-readme.ts",
+    "json": "run-p json:tools json:prompts",
+    "build": "run-s json render",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitkraken/MCP-Docs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gitkraken/MCP-Docs/issues"
+  },
+  "homepage": "https://github.com/gitkraken/MCP-Docs#readme",
+  "devDependencies": {
+    "@modelcontextprotocol/inspector": "0.16.5",
+    "@types/node": "^24.3.0",
+    "npm-run-all": "^4.1.5",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "mustache": "^4.2.0"
+  }
+}
